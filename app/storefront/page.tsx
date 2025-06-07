@@ -2,6 +2,7 @@
 // Next steps: Connect to Strapi API for banners and marketing content
 
 import React from 'react';
+import ProductGrid from '../../modules/commerce/products';
 
 export default async function StorefrontPage() {
   // TODO: Fetch dynamic banners from Strapi CMS
@@ -17,6 +18,10 @@ export default async function StorefrontPage() {
           {/* Placeholder for dynamic banners */}
           <div className="w-full h-40 bg-gray-200 rounded-lg animate-pulse" />
         </div>
+      </section>
+      <section className="max-w-6xl mx-auto px-4 py-8">
+        <h2 className="text-2xl font-bold mb-4">Products</h2>
+        <ProductGrid />
       </section>
     </main>
   );

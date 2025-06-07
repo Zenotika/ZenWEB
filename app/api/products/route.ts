@@ -1,15 +1,26 @@
 // API route for fetching products
 // Next steps: Connect to Supabase or Strapi for real data
 import { NextResponse } from 'next/server';
+import { supabase } from '../../../lib/supabase';
 
 // Placeholder handler untuk produk
-export async function GET() {
-  // TODO: Ganti dengan fetch dari Supabase/Strapi
-  return NextResponse.json([
-    { id: 1, name: 'Product One', price: 199000, image: '/placeholder1.jpg', category: 'T-shirt' },
-    { id: 2, name: 'Product Two', price: 299000, image: '/placeholder2.jpg', category: 'Hoodie' },
-    { id: 3, name: 'Product Three', price: 399000, image: '/placeholder3.jpg', category: 'Shoes' },
-    { id: 4, name: 'Product Four', price: 499000, image: '/placeholder4.jpg', category: 'Bag' },
-  ]);
+export async function GET(request: Request) {
+  // Parse query params
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const limit = parseInt(searchParams.get('limit') || '12', 10);
+  const category = searchParams.get('category') || '';
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+
+  let query = supabase.from('products').select('*', { count: 'exact' }).range(from, to);
+  if (category) {
+    query = query.eq('category', category);
+  }
+  const { data, error, count } = await query;
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json({ products: data || [], total: count || 0 });
 }
-// Next: Implementasi fetch produk nyata dari Supabase/Strapi.
+// Now this endpoint supports real Supabase data, pagination, and category filtering.
