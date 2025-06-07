@@ -7,7 +7,7 @@
     "@supabase/supabase-js": "^2.39.7",
     "@sendgrid/mail": "^8.0.0",
     "@tailwindcss/typography": "^0.5.9",
-    "phosphor-react": "^2.0.0",
+    "phosphor-react": "^1.4.1",
     "framer-motion": "^11.0.0"
   },
   "devDependencies": {
