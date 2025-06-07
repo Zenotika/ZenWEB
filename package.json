@@ -19,6 +19,6 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "vercel-build": "npm run prepare && next build"
+    "vercel-build": "next build"
   }
 }
