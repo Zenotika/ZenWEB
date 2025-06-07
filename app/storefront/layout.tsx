@@ -1,5 +1,4 @@
 // Root layout for Next.js App Router in /app/storefront
-import '../../styles/globals.css';
 import { GlobalSWRProvider } from '../../modules/infrastructure/cache';
 import React from 'react';
 import StorefrontClientLayout from './StorefrontClientLayout';
