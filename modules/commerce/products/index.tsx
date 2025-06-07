@@ -3,6 +3,7 @@
 
 'use client';
 import { useState, useRef, useCallback, useEffect } from 'react';
+import ProductCard from './ProductCard';
 
 // Helper to fetch products with pagination and filters
 const fetcher = async (url: string) => {
@@ -65,13 +66,13 @@ export default function ProductGrid() {
   // TODO: Replace with real filter facets from API
 
   return (
-    <div>
+    <div className="w-full">
       {/* Filter Facets */}
-      <div className="mb-4 flex gap-2">
+      <div className="mb-8 flex flex-wrap gap-3 justify-center">
         {categories.map((cat) => (
           <button
             key={cat}
-            className={`px-3 py-1 rounded-full border ${category === cat || (cat === 'All' && !category) ? 'bg-primary text-white' : 'bg-white text-gray-700'}`}
+            className={`px-5 py-2 rounded-full border font-semibold shadow-sm backdrop-blur-md transition-all duration-150 ${category === cat || (cat === 'All' && !category) ? 'bg-primary text-white shadow-lg' : 'bg-white/70 text-gray-700 hover:bg-primary/10'}`}
             onClick={() => setCategory(cat === 'All' ? '' : cat)}
           >
             {cat}
@@ -79,28 +80,17 @@ export default function ProductGrid() {
         ))}
       </div>
       {/* Product Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6" id="products">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white rounded-lg shadow p-4 group relative overflow-hidden hover:scale-105 transition-transform cursor-pointer"
-          >
-            {/* Metaball/canvas hover effect placeholder */}
-            <div className="absolute inset-0 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-              {/* TODO: metaball/canvas hover effect */}
-            </div>
-            <img src={product.image} alt={product.name} className="w-full h-40 object-cover rounded mb-2" />
-            <h3 className="font-semibold text-lg">{product.name}</h3>
-            <p className="text-primary font-bold">Rp {product.price.toLocaleString()}</p>
-            <span className="text-xs text-gray-400">{product.category}</span>
-            {/* Add to Cart Button */}
-            <button className="mt-2 w-full py-1 rounded bg-primary text-white hover:bg-primary/90 transition-colors">Add to Cart</button>
+          <div className="relative">
+            <div className="absolute inset-0 z-0 rounded-2xl bg-gradient-to-br from-primary/10 to-white blur-xl opacity-60 scale-95 group-hover:scale-100 transition-transform" />
+            <ProductCard key={product.id} product={product} onAddToCart={() => {/* TODO: Integrate cart logic */}} />
           </div>
         ))}
       </div>
       {/* Infinite Scroll Loader */}
-      <div ref={loader} className="h-12 flex items-center justify-center">
-        {loading && <span>Loading...</span>}
+      <div ref={loader} className="h-16 flex items-center justify-center mt-8">
+        {loading && <span className="text-primary font-semibold animate-pulse">Loading...</span>}
         {!hasMore && !loading && <span className="text-gray-400 text-sm">No more products</span>}
       </div>
     </div>

@@ -1,9 +1,8 @@
 // Root layout for Next.js App Router in /app/storefront
-import '../styles/globals.css';
+import '../../styles/globals.css';
 import { GlobalSWRProvider } from '../../modules/infrastructure/cache';
-import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
-import { usePathname } from 'next/navigation';
+import StorefrontClientLayout from './StorefrontClientLayout';
 
 // ThemeProvider stub (bisa diganti dengan provider nyata, misal: next-themes)
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => <>{children}</>;
@@ -11,13 +10,13 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => <>{childr
 // Navbar & Footer minimal
 function Navbar() {
   return (
-    <nav className="w-full flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur sticky top-0 z-50 shadow-sm">
-      <span className="font-bold text-xl tracking-tight">Zenotika</span>
-      <div className="flex gap-4">
-        <a href="/storefront" className="hover:underline">Home</a>
-        <a href="#products" className="hover:underline">Products</a>
-        <a href="#cart" className="hover:underline">Cart</a>
-        <a href="#profile" className="hover:underline">Profile</a>
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90vw] max-w-5xl flex items-center justify-between px-8 py-4 bg-white/60 backdrop-blur-xl rounded-full shadow-xl border border-white/30">
+      <span className="font-extrabold text-2xl tracking-tight text-primary drop-shadow">Zenotika</span>
+      <div className="flex gap-6 text-lg font-medium">
+        <a href="/storefront" className="hover:text-primary transition-colors">Home</a>
+        <a href="#products" className="hover:text-primary transition-colors">Products</a>
+        <a href="#cart" className="hover:text-primary transition-colors">Cart</a>
+        <a href="#profile" className="hover:text-primary transition-colors">Profile</a>
       </div>
     </nav>
   );
@@ -25,7 +24,7 @@ function Navbar() {
 
 function Footer() {
   return (
-    <footer className="w-full text-center py-6 text-gray-500 text-sm border-t mt-12 bg-white/80 backdrop-blur">
+    <footer className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90vw] max-w-3xl text-center py-2 text-gray-400 text-xs bg-white/50 backdrop-blur rounded-full shadow border border-white/20">
       &copy; {new Date().getFullYear()} Zenotika. All rights reserved.
     </footer>
   );
@@ -37,8 +36,6 @@ export const metadata = {
 };
 
 export default function StorefrontLayout({ children }: { children: React.ReactNode }) {
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
-
   return (
     <html lang="en">
       <head>
@@ -46,21 +43,15 @@ export default function StorefrontLayout({ children }: { children: React.ReactNo
         <meta name="description" content={metadata.description} />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="bg-gradient-to-b from-white to-gray-100 min-h-screen">
+      <body className="font-sans bg-gradient-to-b from-white to-gray-100 min-h-screen">
         <ThemeProvider>
           <GlobalSWRProvider>
             <Navbar />
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={pathname}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -24 }}
-                transition={{ duration: 0.4, ease: 'easeInOut' }}
-              >
+            <StorefrontClientLayout>
+              <div className="relative z-10 min-h-[70vh] flex flex-col justify-center">
                 {children}
-              </motion.div>
-            </AnimatePresence>
+              </div>
+            </StorefrontClientLayout>
             <Footer />
           </GlobalSWRProvider>
         </ThemeProvider>

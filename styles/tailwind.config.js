@@ -9,7 +9,19 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // Add custom color themes here
+      colors: {
+        primary: {
+          DEFAULT: '#6366f1', // Indigo-500
+          dark: '#4338ca',    // Indigo-700
+          light: '#a5b4fc',   // Indigo-300
+        },
+      },
+      borderRadius: {
+        xl: '1rem',
+      },
+      boxShadow: {
+        card: '0 2px 12px 0 rgba(99,102,241,0.08)',
+      },
     },
   },
   plugins: [
